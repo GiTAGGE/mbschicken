@@ -1,6 +1,6 @@
 (function () {
   const cfg = window.MBS_CONFIG || {};
-  const waBase = "https://wa.me/" + (cfg.whatsapp || "918748963566");
+  const waBase = "https://wa.me/" + (cfg.whatsapp || "919901467970");
 
   function formatWhatsAppOrder(productName) {
     const lines = [

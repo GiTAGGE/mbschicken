@@ -1,0 +1,33 @@
+:root{--red:#c51d24;--green:#004b32;--cream:#fff9ed;--muted:#65736b;--line:#eadfca}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--cream);color:#193026;padding:16px;padding-bottom:32px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.topbar h1{margin:0;font-size:22px;color:var(--green)}
+.topbar p{margin:4px 0 0;font-size:12px;color:var(--muted)}
+.ghost{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 14px;font-weight:700}
+.auth,.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px}
+.auth input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);margin:8px 0 12px;font-size:16px}
+.primary{width:100%;padding:14px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:800;font-size:15px}
+.hint{font-size:11px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.stat b{display:block;font-size:22px;color:var(--red)}
+.stat span{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.panel h2{margin:0 0 12px;font-size:16px;color:var(--green)}
+.cards{display:grid;gap:12px}
+.order-card,.lead-card{border:1px solid var(--line);border-radius:14px;padding:14px;background:#fffdf8}
+.order-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.status-pill{font-size:10px;font-weight:800;padding:4px 8px;border-radius:99px;background:#e8f0ea;color:var(--green)}
+.customer{font-weight:800;margin:8px 0 4px}
+.meta{font-size:12px;color:var(--muted);margin:0}
+.amounts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0;font-size:12px}
+.amounts strong{display:block;font-size:15px}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.actions button{border:0;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}
+.btn-confirm{background:var(--green);color:#fff}
+.btn-advance{background:var(--red);color:#fff}
+.btn-next{background:#0b7b52;color:#fff}
+.btn-wa{background:#fff;border:1px solid var(--line)}
+@media(min-width:720px){
+  body{max-width:960px;margin:auto}
+  .stats{grid-template-columns:repeat(4,1fr)}
+}

@@ -2,7 +2,7 @@ window.MBS_CONFIG = {
   businessName: "MBS Chicken Centre",
   phoneDisplay: "99014 67970",
   phoneTel: "+919901467970",
-  whatsapp: "918748963566",
+  whatsapp: "919901467970",
   advancePercent: 30,
   deliveryAreas: [
     "vidya nagar",

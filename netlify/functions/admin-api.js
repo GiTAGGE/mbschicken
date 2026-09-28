@@ -21,9 +21,11 @@ exports.handler = async (event) => {
   try {
     if (event.httpMethod === "GET" && (path === "" || path === "dashboard")) {
       const [leads, orders] = await Promise.all([
-        supabaseRequest("leads?select=id,lead_code,name,phone,area,source,status,created_at&order=created_at.desc&limit=50"),
         supabaseRequest(
-          "orders?select=id,order_code,customer_name,customer_phone,area,status,total_amount,advance_required,advance_paid,balance_due,created_at&order=created_at.desc&limit=50",
+          "leads?select=id,lead_code,name,phone,area,source,status,message,created_at&order=created_at.desc&limit=100",
+        ),
+        supabaseRequest(
+          "orders?select=id,order_code,customer_name,customer_phone,area,status,total_amount,advance_required,advance_paid,balance_due,balance_paid,payment_status,notes,lead_id,created_at&order=created_at.desc&limit=100",
         ),
       ]);
 
@@ -64,6 +66,13 @@ exports.handler = async (event) => {
       const patch = { status: body.status };
       if (body.advance_paid != null) patch.advance_paid = body.advance_paid;
       if (body.balance_paid != null) patch.balance_paid = body.balance_paid;
+      if (body.status === "PAYMENT_COMPLETE") {
+        patch.payment_status = "PAID";
+        if (body.balance_paid == null) patch.balance_paid = patch.balance_due;
+      }
+      if (body.status === "CONFIRMED" && body.advance_paid != null) {
+        patch.payment_status = "PARTIAL";
+      }
       const rows = await supabaseRequest(`orders?id=eq.${id}`, {
         method: "PATCH",
         body: patch,
@@ -82,19 +91,40 @@ exports.handler = async (event) => {
         customer_phone: body.customer_phone,
         area: body.area || null,
         notes: body.notes || null,
-        status: "ADVANCE_PENDING",
+        status: body.status || "ADVANCE_PENDING",
         total_amount: total,
         advance_required: advanceRequired,
         advance_paid: 0,
         balance_due: total - advanceRequired,
         source: body.source || "admin",
+        lead_id: body.lead_id || null,
       };
       const rows = await supabaseRequest("orders", {
         method: "POST",
         body: order,
         prefer: "return=representation",
       });
-      return json(200, { order: Array.isArray(rows) ? rows[0] : rows });
+      const created = Array.isArray(rows) ? rows[0] : rows;
+      if (body.lead_id) {
+        await supabaseRequest(`leads?id=eq.${body.lead_id}`, {
+          method: "PATCH",
+          body: { status: "ORDER_CREATED" },
+        });
+      }
+      return json(200, { order: created });
+    }
+
+    if (event.httpMethod === "PATCH" && path.startsWith("leads/")) {
+      const id = path.split("/")[1];
+      const body = JSON.parse(event.body || "{}");
+      const allowed = ["NEW", "CONTACTED", "INTERESTED", "ORDER_CREATED", "LOST", "CANCELLED"];
+      if (!allowed.includes(body.status)) return json(400, { error: "Invalid lead status" });
+      const rows = await supabaseRequest(`leads?id=eq.${id}`, {
+        method: "PATCH",
+        body: { status: body.status },
+        prefer: "return=representation",
+      });
+      return json(200, { lead: Array.isArray(rows) ? rows[0] : rows });
     }
 
     return json(404, { error: "Not found" });

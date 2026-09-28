@@ -8,35 +8,75 @@
   <link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>MBS Operations</h1>
-      <p>Leads · Orders · 30% advance workflow</p>
-    </div>
-    <button type="button" id="refreshBtn" class="ghost">Refresh</button>
-  </header>
-
   <section class="auth" id="authPanel">
+    <div class="auth-brand">
+      <h1>MBS Operations</h1>
+      <p>Staff login</p>
+    </div>
     <form id="authForm">
       <label for="adminKey">Admin API key</label>
-      <input id="adminKey" name="adminKey" type="password" placeholder="Same as MBS_ADMIN_API_KEY in Netlify" autocomplete="current-password" required>
+      <input id="adminKey" name="adminKey" type="password" placeholder="MBS_ADMIN_API_KEY from Netlify" autocomplete="current-password" required>
       <button type="submit" id="saveKeyBtn" class="primary">Unlock dashboard</button>
-      <p class="hint">Keep this private. Staff only.</p>
+      <p class="hint">Private — do not share. Same key as Netlify env var.</p>
       <p class="auth-error" id="authError" hidden></p>
     </form>
   </section>
 
-  <main id="app" hidden>
-    <section class="stats" id="stats"></section>
-    <section class="panel">
-      <h2>Today&apos;s orders</h2>
+  <div id="app" class="app-shell" hidden>
+    <header class="topbar">
+      <div>
+        <h1>MBS Operations</h1>
+        <p id="lastSync">Leads · Orders · 30% advance</p>
+      </div>
+      <div class="toolbar">
+        <button type="button" id="refreshBtn" class="btn secondary">↻ Refresh</button>
+        <button type="button" id="newOrderBtn" class="btn primary">+ New order</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="mainTabs">
+      <button type="button" class="tab active" data-tab="overview">Overview</button>
+      <button type="button" class="tab" data-tab="orders">Orders</button>
+      <button type="button" class="tab" data-tab="leads">Leads</button>
+    </nav>
+
+    <section class="stats" id="stats" aria-label="Summary"></section>
+
+    <section class="panel" id="ordersPanel">
+      <div class="panel-head">
+        <h2>Orders</h2>
+        <p class="panel-sub" id="ordersFilterLabel">All active orders</p>
+      </div>
       <div id="ordersList" class="cards"></div>
+      <p class="empty" id="ordersEmpty" hidden>No orders yet. Tap <strong>+ New order</strong> or convert a lead.</p>
     </section>
-    <section class="panel">
-      <h2>Recent leads</h2>
+
+    <section class="panel" id="leadsPanel">
+      <div class="panel-head">
+        <h2>Leads</h2>
+        <p class="panel-sub">Website &amp; enquiries</p>
+      </div>
       <div id="leadsList" class="cards"></div>
+      <p class="empty" id="leadsEmpty" hidden>No leads yet.</p>
     </section>
-  </main>
+  </div>
+
+  <dialog id="orderModal" class="modal">
+    <form id="orderForm" method="dialog">
+      <h3 id="orderModalTitle">New order</h3>
+      <input type="hidden" id="orderLeadId" name="lead_id">
+      <label>Customer name<input name="customer_name" required></label>
+      <label>Mobile<input name="customer_phone" inputmode="tel" required></label>
+      <label>Area<input name="area"></label>
+      <label>Order total (₹)<input name="total_amount" type="number" min="0" step="1" required></label>
+      <label>Notes (cuts, kg)<textarea name="notes" rows="2"></textarea></label>
+      <p class="modal-hint" id="advancePreview">30% advance will be calculated automatically.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn secondary" id="orderCancelBtn">Cancel</button>
+        <button type="submit" class="btn primary">Create order</button>
+      </div>
+    </form>
+  </dialog>
 
   <template id="orderCardTpl">
     <article class="order-card">
@@ -46,11 +86,14 @@
       </div>
       <p class="customer"></p>
       <p class="meta"></p>
+      <p class="notes"></p>
       <div class="amounts"></div>
-      <div class="actions"></div>
+      <p class="pipeline-label">Actions</p>
+      <div class="actions pipeline"></div>
+      <div class="actions comms"></div>
     </article>
   </template>
 
-  <script src="/admin/admin.js"></script>
+  <script src="/admin/admin.js?v=2"></script>
 </body>
 </html>

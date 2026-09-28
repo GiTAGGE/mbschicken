@@ -17,10 +17,13 @@
   </header>
 
   <section class="auth" id="authPanel">
-    <label for="adminKey">Admin API key</label>
-    <input id="adminKey" type="password" placeholder="Set in Netlify: MBS_ADMIN_API_KEY" autocomplete="current-password">
-    <button type="button" id="saveKeyBtn" class="primary">Unlock dashboard</button>
-    <p class="hint">Keep this private. Staff only.</p>
+    <form id="authForm">
+      <label for="adminKey">Admin API key</label>
+      <input id="adminKey" name="adminKey" type="password" placeholder="Same as MBS_ADMIN_API_KEY in Netlify" autocomplete="current-password" required>
+      <button type="submit" id="saveKeyBtn" class="primary">Unlock dashboard</button>
+      <p class="hint">Keep this private. Staff only.</p>
+      <p class="auth-error" id="authError" hidden></p>
+    </form>
   </section>
 
   <main id="app" hidden>

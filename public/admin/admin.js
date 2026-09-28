@@ -3,7 +3,9 @@
   const authPanel = document.getElementById("authPanel");
   const app = document.getElementById("app");
   const adminKeyInput = document.getElementById("adminKey");
+  const authForm = document.getElementById("authForm");
   const saveKeyBtn = document.getElementById("saveKeyBtn");
+  const authError = document.getElementById("authError");
   const refreshBtn = document.getElementById("refreshBtn");
   const statsEl = document.getElementById("stats");
   const ordersList = document.getElementById("ordersList");
@@ -131,7 +133,7 @@
           l.name +
           " · " +
           l.phone +
-          "</p><p class="meta">' +
+          '</p><p class="meta">' +
           (l.area || "") +
           " · " +
           (l.source || "") +
@@ -153,20 +155,43 @@
     renderLeads(data.leads || []);
   }
 
+  function showAuthError(message) {
+    if (!authError) return;
+    authError.hidden = !message;
+    authError.textContent = message || "";
+  }
+
   function unlock() {
     const key = adminKeyInput.value.trim();
-    if (!key) return;
+    if (!key) {
+      showAuthError("Please enter your admin API key.");
+      return;
+    }
+    showAuthError("");
+    if (saveKeyBtn) saveKeyBtn.disabled = true;
     setKey(key);
     authPanel.hidden = true;
     app.hidden = false;
-    load().catch(function (e) {
-      alert(e.message);
-      authPanel.hidden = false;
-      app.hidden = true;
-    });
+    load()
+      .catch(function (e) {
+        sessionStorage.removeItem(KEY_STORAGE);
+        authPanel.hidden = false;
+        app.hidden = true;
+        showAuthError(e.message || "Could not unlock. Check your key and try again.");
+      })
+      .finally(function () {
+        if (saveKeyBtn) saveKeyBtn.disabled = false;
+      });
   }
 
-  saveKeyBtn.addEventListener("click", unlock);
+  if (authForm) {
+    authForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      unlock();
+    });
+  } else if (saveKeyBtn) {
+    saveKeyBtn.addEventListener("click", unlock);
+  }
   refreshBtn.addEventListener("click", function () {
     load().catch(function (e) {
       alert(e.message);

@@ -1,0 +1,42 @@
+/* MBS v1 enhancements — mobile-first UX, delivery & enquiry */
+body{padding-bottom:env(safe-area-inset-bottom,0)}
+body.has-mobilebar{padding-bottom:calc(72px + env(safe-area-inset-bottom,0))}
+.menu-btn{display:none;margin-left:auto;border:0;background:transparent;font-size:26px;color:var(--green);padding:8px;cursor:pointer;line-height:1}
+.nav-overlay{position:fixed;inset:0;background:rgba(25,48,38,.45);z-index:40}
+header.nav-open nav{display:flex!important;position:fixed;top:67px;left:0;right:0;flex-direction:column;background:#fffdf8;padding:16px 24px 24px;border-bottom:1px solid var(--line);z-index:45;gap:14px;font-size:15px}
+@media(max-width:700px){
+  .menu-btn{display:flex;align-items:center;justify-content:center}
+  .nav:after{content:none!important;display:none!important}
+}
+.product-note{font-size:10px;color:var(--muted);margin:-4px 0 8px}
+.product-actions{display:grid;gap:6px}
+.product-actions .btn-wa{background:#0b7b52;color:#fff;padding:8px;font-size:11px}
+.product-actions .btn-call{background:#fff;color:var(--green);border:1px solid var(--line);padding:8px;font-size:11px}
+.policy{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.policygrid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.policylist{margin:16px 0 0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.6}
+.policycard{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:22px 24px;box-shadow:0 12px 32px rgba(0,75,50,.08)}
+.policyrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.policyrow:last-of-type{border-bottom:0}
+.policyrow.accent strong{color:var(--red);font-size:20px}
+.policynote{font-size:11px;color:var(--muted);margin:12px 0 0}
+.delivery-check{background:linear-gradient(180deg,#fffdf8 0%,var(--cream) 100%)}
+.deliverywrap{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.checkform,.enquiry-card input,.enquiry-card textarea{display:block;width:100%;margin:0 0 12px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);font:inherit;font-size:15px;background:#fff}
+.checkform label{font-size:11px;font-weight:900;letter-spacing:.8px;color:var(--green);display:block;margin-bottom:4px}
+.checkform .btn{width:100%;margin-top:4px}
+.checkresult{margin:14px 0 0;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:700}
+.checkresult.ok{background:#e8f5ef;color:var(--green);border:1px solid #b8dcc8}
+.checkresult.warn{background:#fff4e5;color:#8a5a00;border:1px solid #f0d9a8}
+.enquiry-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}
+.enquiry-card h3{margin:6px 0 10px;font-size:22px;color:var(--green)}
+.form-status{margin:10px 0 0;font-size:13px;font-weight:700}
+.form-status.ok{color:var(--green)}
+.form-status.err{color:var(--red)}
+.hero .btn-wa-primary{background:#0b7b52;color:#fff}
+@media(max-width:900px){
+  .policygrid,.deliverywrap{grid-template-columns:1fr}
+}
+@media(min-width:701px){
+  .hero .actions .btn{min-width:200px}
+}

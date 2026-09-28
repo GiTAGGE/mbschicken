@@ -1,0 +1,22 @@
+window.MBS_CONFIG = {
+  businessName: "MBS Chicken Centre",
+  phoneDisplay: "99014 67970",
+  phoneTel: "+919901467970",
+  whatsapp: "918748963566",
+  advancePercent: 30,
+  deliveryAreas: [
+    "vidya nagar",
+    "vidyanagar",
+    "gokul road",
+    "deshpande nagar",
+    "keshwapur",
+    "old hubballi",
+    "unkal",
+    "navanagar",
+    "hosur",
+    "tarihal",
+    "hubballi",
+    "hubli",
+  ],
+  deliveryPins: ["580020", "580021", "580023", "580024", "580025", "580026", "580028", "580029", "580030", "580031", "580032"],
+};

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#004b32">
+  <title>MBS Operations</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>MBS Operations</h1>
+      <p>Leads · Orders · 30% advance workflow</p>
+    </div>
+    <button type="button" id="refreshBtn" class="ghost">Refresh</button>
+  </header>
+
+  <section class="auth" id="authPanel">
+    <label for="adminKey">Admin API key</label>
+    <input id="adminKey" type="password" placeholder="Set in Netlify: MBS_ADMIN_API_KEY" autocomplete="current-password">
+    <button type="button" id="saveKeyBtn" class="primary">Unlock dashboard</button>
+    <p class="hint">Keep this private. Staff only.</p>
+  </section>
+
+  <main id="app" hidden>
+    <section class="stats" id="stats"></section>
+    <section class="panel">
+      <h2>Today&apos;s orders</h2>
+      <div id="ordersList" class="cards"></div>
+    </section>
+    <section class="panel">
+      <h2>Recent leads</h2>
+      <div id="leadsList" class="cards"></div>
+    </section>
+  </main>
+
+  <template id="orderCardTpl">
+    <article class="order-card">
+      <div class="order-head">
+        <strong class="code"></strong>
+        <span class="status-pill"></span>
+      </div>
+      <p class="customer"></p>
+      <p class="meta"></p>
+      <div class="amounts"></div>
+      <div class="actions"></div>
+    </article>
+  </template>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
